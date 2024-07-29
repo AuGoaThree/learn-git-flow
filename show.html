@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .form-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 5px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .link {
+            color: #007bff;
+            cursor: pointer;
+            display: block;
+            margin-top: 10px;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+        .register-container, .forgot-password-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="login-container">
+    <h2>SIGN IN OR CREATE AN ACCOUNT</h2>
+    <p>Please sign in or create a new user account. If your login information is displayed below, then you are already logged in.</p>
+    <img src="https://static.vecteezy.com/system/resources/previews/028/716/525/non_2x/creative-shield-for-security-logo-design-editable-vector.jpg" alt="GUARD" style="width: 400px; margin: 20px 0;">
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="text" id="email" placeholder="someone@example.com" required>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Password" required>
+    </div>
+    <div class="form-group">
+        <label>
+            <input type="checkbox" id="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn" onclick="login()">SIGN IN</button>
+    <div class="link" onclick="showRegisterForm()">Create an account</div>
+    <div class="link" onclick="showForgotPasswordForm()">Forgot your password?</div>
+</div>
+
+<div class="container register-container" id="register-container">
+    <h2>Register Form</h2>
+    <div class="form-group">
+        <label for="new-username">Username:</label>
+        <input type="text" id="new-username" required>
+    </div>
+    <div class="form-group">
+        <label for="new-password">Password:</label>
+        <input type="password" id="new-password" required>
+    </div>
+    <div class="form-group">
+        <label for="new-email">Email:</label>
+        <input type="text" id="new-email" required>
+    </div>
+    <button class="btn" onclick="register()">REGISTER</button>
+    <div class="link" onclick="showLoginForm()">Cancel</div>
+</div>
+
+<div class="container forgot-password-container" id="forgot-password-container">
+    <h2>FORGOT YOUR PASSWORD?</h2>
+    <p>No problem. Please enter your email address below, then check your email for a message that includes a link to change your password.</p>
+    <div class="form-group">
+        <label for="forgot-email">Your email address:</label>
+        <input type="email" id="forgot-email" placeholder="someone@example.com" required>
+    </div>
+    <p style="color: red;">We'll send you an email with a link you can click to reset your password.</p>
+    <button class="btn" onclick="submitForgotPassword()">SUBMIT</button>
+    <button class="btn" style="background-color: gray;" onclick="showLoginForm()">CANCEL</button>
+</div>
+
+<script>
+    const users = {
+        "admin": { "password": "password", "email": "admin@example.com" }
+    };
+
+    function login() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        for (let user in users) {
+            if (users[user].email === email && users[user].password === password) {
+                alert(`Login Successful. Welcome, ${user}!`);
+                return;
+            }
+        }
+        alert("Login Failed. Invalid email or password.");
+    }
+
+    function showRegisterForm() {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('register-container').style.display = 'block';
+    }
+
+    function showLoginForm() {
+        document.getElementById('register-container').style.display = 'none';
+        document.getElementById('forgot-password-container').style.display = 'none';
+        document.getElementById('login-container').style.display = 'block';
+    }
+
+    function showForgotPasswordForm() {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('forgot-password-container').style.display = 'block';
+    }
+
+    function register() {
+        const newUsername = document.getElementById('new-username').value;
+        const newPassword = document.getElementById('new-password').value;
+        const newEmail = document.getElementById('new-email').value;
+
+        if (users[newUsername]) {
+            alert("Registration Failed. Username already exists.");
+        } else {
+            users[newUsername] = { "password": newPassword, "email": newEmail };
+            alert("Registration Successful. Account created successfully!");
+            showLoginForm();
+        }
+    }
+
+    function submitForgotPassword() {
+        const forgotEmail = document.getElementById('forgot-email').value;
+        // Here you can add logic to handle the forgot password request.
+        alert(`If ${forgotEmail} is registered, a password reset link will be sent.`);
+        showLoginForm();
+    }
+</script>
+
+</body>
+</html>
